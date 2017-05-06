@@ -1,3 +1,5 @@
+// Nice that you put some newlines. But since you made the first object better readable, do it for all!
+// It's easier to read but the most important thing is to be consistent.
 var movieList = {"Search":[
 	{"Title":"Cars",
 	"Year":"2006",
@@ -15,24 +17,28 @@ var movieList = {"Search":[
 	{"Title":"Two Cars, One Night","Year":"2004","imdbID":"tt0390579","Type":"movie","Poster":"https://images-na.ssl-images-amazon.com/images/M/MV5BMTc4NDQ3OTg4M15BMl5BanBnXkFtZTYwMTc3MDM1._V1_SX300.jpg"}],"totalResults":"221","Response":"True"};
 console.log(movieList.Search[2].Title);
 
+// Very nice! You followed the pattern we gave you from the books example.
+// It's good to read, although a few more newlines would make it better.
 function createInfoElement(info) {
+	// Try to group the statements logically. So either make an element and add everything
+	// or first create all elements and then add all the information. Dont mix the grouping
     var listInfo = document.createElement('div');
     var poster = document.createElement('img');
     var link = document.createElement('a');
     poster.setAttribute("src", info.Poster);
     link.setAttribute("href", 'http://www.imdb.com/title/'+info.imdbID);
     link.setAttribute("target", '_blanck');
-    var title = document.createElement('p'); 
+    var title = document.createElement('p');
     var text = document.createTextNode(info.Title);;
-    title.appendChild(text);                    
+    title.appendChild(text);
     var Year = info.Year;
-    var Type = info.Type;  
+    var Type = info.Type;
     var text = document.createTextNode(Type +" "+Year);
-     listInfo.appendChild(title); 
+     listInfo.appendChild(title);
     listInfo.appendChild(poster);
     link.appendChild(text);
-    listInfo.appendChild(link);  
-                              
+    listInfo.appendChild(link);
+
     return listInfo;
 };
 
@@ -46,3 +52,5 @@ function createMovieList() {
 };
 createMovieList();
 
+// Apart from the styling you've done well. Take to heart the little bit of feedback I gave you. I think you
+// need harder assignments ;)
