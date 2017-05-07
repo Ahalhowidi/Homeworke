@@ -1,0 +1,28 @@
+.contant{
+	border: 5px solid;
+}
+.movieInfo{
+	float: right;
+	margin-right: 400px;
+	display: inline-block;
+}
+.titles{
+
+	display: inline-block;
+}
+#title{
+	margin: 75px;
+	display: inline-block;
+	margin-right: 100px;
+	vertical-align: top;
+	font-size: 20px;
+}
+#poster{
+	width: 150px;
+	height: 150px;
+}
+#imdbLink{
+	margin-left: 50px;
+	font-size: 20px;
+	display: block;
+}
