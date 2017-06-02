@@ -34,7 +34,7 @@ function makeRequest(searchTerm){
     if (xhr.readyState == XMLHttpRequest.DONE){
       console.log("xhr request DONE SON");
       //console.log(xhr.response);
-      var results = JSON.parse(xhr.response);
+       results = JSON.parse(xhr.response);
       console.log(results);
       renderDOM(results);
     }else{
