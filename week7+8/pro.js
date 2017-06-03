@@ -94,33 +94,13 @@ function renderDOM(userInfo){
   var results = [];
 results = JSON.parse(datums);
   renderUserDOM(results);
-})
- 
-
-       //linkUserEl.addEventListener("click", getRepoInfo)
-
-// .catch(function (err) {
-//   console.error('there was an error!', err.statusText);
-// }); 
+});
 }
 
 function renderUserDOM(userInfo){
-  // return new Promise(function (resolve, reject) {
-    // return new Promise(function (resolve, reject) {
     userInfo.map(renderUserSPA)
-//     .then(function (datums) {
-//   var linkUserEl = document.getElementsByClassName("repo");
-//       linkUserEl.addEventListener("hover", getRepoInfo);
-// // })
-//      if (typeof userInfo !== 'undefined') {
-//         resolve(console.log('resolve'));
-//       } else {
-//         reject(console.log('rij'))} 
-        
-// });
   }
- //     if (typeof userInfo !== 'undefined') {
-  //       resolve(
+ 
 function renderUserSPA(item){
   var repo = document.getElementById("resultRepoEl");
   var section = document.createElement('section');
@@ -132,27 +112,30 @@ function renderUserSPA(item){
   a.appendChild(title);
   section.appendChild(a);
   repo.appendChild(section);
+  var url = 'https://api.github.com/repos/'+ item.full_name +'/events'
+  makeRequestpro('GET', url)
+  .then(function (datums) {
+  var results = [];
+  results = JSON.parse(datums);
+  //console.log(results)
+  
+
   a.addEventListener("click", getRepoInfo);
   function getRepoInfo(){
-  makeRepoInfo(item); 
-}}
+  makeRepoInfo(item , results);
 
-function makeRepoInfo(event){
-  //console.log(event)
+}})
+};
+function makeRepoInfo(event , results){
+  console.log(event)
   var repoInfo = document.getElementsByClassName("repo");
   var repo = document.getElementById("resultRepoInfo");
   var title = document.createElement('h2');
   repo.innerHTML = "";
    title.innerHTML = event.name;
    repo.appendChild(title);
-   var url = 'https://api.github.com/repos/'+ event.full_name +'/events'
-   makeRequestpro('GET', url)
-.then(function (datums) {
-  var results = [];
-  results = JSON.parse(datums);
-//console.log(results)
-  results.map(renderRepoDOM);
-})
+   results.map(renderRepoDOM);
+
 }
 function renderRepoDOM(item){
   console.log(item)
