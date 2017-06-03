@@ -52,7 +52,9 @@ function renderDOM(userInfo){
   loaderEl.classList.toggle("invisible");
   console.log("Rendering user results");
   var article = document.querySelector("article");
+  var repo = document.getElementById("resultRepoEl");
   article.innerHTML = "";
+  repo.innerHTML = "";
 
   var section = document.createElement('section');
   var title = document.createElement('h2');
@@ -73,16 +75,18 @@ function renderDOM(userInfo){
   span.innerHTML = userInfo.public_repos;
 
   linkUser.appendChild(title);
-  link.appendChild(avatar);
+  if (typeof userInfo.avatar_url !== 'undefined') {
+  link.appendChild(avatar);}
   section.appendChild(linkUser);
   section.appendChild(link);
-  section.appendChild(span);
+  // section.appendChild(span);
   article.appendChild(section);
   makeUserRequest(userInfo.repos_url);
   
 }
 
 function makeUserRequest(searchTerm){
+  return new Promise(function(resolve,reject){
   loaderEl.classList.toggle("invisible");
   var results = [];
   //Build an XHR request and then send it.
@@ -95,12 +99,14 @@ function makeUserRequest(searchTerm){
   function processRequest() {
     console.log(xhr.readyState);
     if (xhr.readyState == XMLHttpRequest.DONE){
+      resolve(request.responseText);}
       console.log("xhr request DONE Repo");
        results = JSON.parse(xhr.response);
       //console.log(results);
-       if (typeof results !== 'undefined') {
+       // if (typeof results !== 'undefined') {
+
         renderUserDOM(results);
-      }
+      //}
     
   }
 }
@@ -108,9 +114,11 @@ function makeUserRequest(searchTerm){
 
 //This function wil render the ovie information once it has been loaded
 function renderUserDOM(userInfo){
+  // i have to do this with promis
   loaderEl.classList.toggle("invisible");
   console.log("Rendering user results");
   console.log(userInfo);
+  
   userInfo.map(renderUserSPA);
   // var linkUserEl = document.getElementsByClassName("repo");
   // linkUserEl.addEventListener("hover", getRepoInfo);  
@@ -122,7 +130,7 @@ function renderUserSPA(item){
   var title = document.createElement('h2');
   var a = document.createElement('a');
   a.href = "#";
-  a.name = 'repo'+i;
+  a.name = i;
   a.setAttribute("class", "repo");
   i++;
   title.innerHTML = item.name;
