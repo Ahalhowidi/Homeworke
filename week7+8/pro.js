@@ -71,7 +71,6 @@ function renderDOM(userInfo){
   var avatar = document.createElement('img');
   var link = document.createElement('a');
   var linkUser = document.createElement('a');
-  var span = document.createElement('span');
 
   avatar.setAttribute("src", userInfo.avatar_url);
   avatar.setAttribute("id", "avatar");
@@ -82,14 +81,13 @@ function renderDOM(userInfo){
   linkUser.setAttribute("target", '_blank');
   link.setAttribute("target", '_blank');
   title.innerHTML = userInfo.name;
-  span.innerHTML = userInfo.public_repos;
+
 
   linkUser.appendChild(title);
   if (typeof userInfo.avatar_url !== 'undefined') {
   link.appendChild(avatar);}
   section.appendChild(linkUser);
   section.appendChild(link);
-  section.appendChild(span);
   article.appendChild(section);
   makeRequestpro('GET', userInfo.repos_url)
 .then(function (datums) {
@@ -135,27 +133,37 @@ function renderUserSPA(item){
   section.appendChild(a);
   repo.appendChild(section);
   a.addEventListener("click", getRepoInfo);
-function getRepoInfo(){
+  function getRepoInfo(){
   makeRepoInfo(item); 
 }}
 
 function makeRepoInfo(event){
+  //console.log(event)
   var repoInfo = document.getElementsByClassName("repo");
-  console.log(event)
+  var repo = document.getElementById("resultRepoInfo");
+  var title = document.createElement('h2');
+  repo.innerHTML = "";
+   title.innerHTML = event.name;
+   repo.appendChild(title);
+   var url = 'https://api.github.com/repos/'+ event.full_name +'/events'
+   makeRequestpro('GET', url)
+.then(function (datums) {
+  var results = [];
+  results = JSON.parse(datums);
+//console.log(results)
+  results.map(renderRepoDOM);
+})
+}
+function renderRepoDOM(item){
+  console.log(item)
   var repo = document.getElementById("resultRepoInfo");
   var section = document.createElement('section');
-  var title = document.createElement('h2');
   var li = document.createElement('li');
-  repo.innerHTML = "";
-  // a.href = "#";
-  // a.setAttribute("class", "repo");
-   title.innerHTML = event.name;
-   li.innerHTML = event.pushed_at
-   li.appendChild(title);
+   li.innerHTML = item.type;
+  // a.appendChild(title);
    section.appendChild(li);
    repo.appendChild(section);
 }
-
 //I will continue with it
 
 
