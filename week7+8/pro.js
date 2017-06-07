@@ -8,12 +8,7 @@ var loaderEl = document.getElementById("resultLoader");
 //this myURL to load my Github page 
 var myURL = 'https://api.github.com/users/ahalhowidi';
 makeRequestpro('GET', myURL)
-.then(function (datums) {
-  var results = [];
-results = JSON.parse(datums);
-  renderDOM(results);
-})
-
+.then(renderDOM)
 
 btnEl.addEventListener("click", getUserInput);
 
@@ -23,11 +18,7 @@ function getUserInput(event){
   console.log("User typed in: " + userInput);
   var requestURL = 'https://api.github.com/users/' + userInput;
   makeRequestpro('GET', requestURL)
-.then(function (datums) {
-  var results = [];
-results = JSON.parse(datums);
-  renderDOM(results);
-})
+.then(renderDOM)
 }
 
 function makeRequestpro (method, url) {
@@ -36,7 +27,9 @@ function makeRequestpro (method, url) {
     xhr.open(method, url);
     xhr.onload = function () {
       if (this.status >= 200 && this.status < 300) {
-        resolve(xhr.response);
+         var results = [];
+        results = JSON.parse(xhr.response);
+        resolve(results);
       } else {
         reject({
           status: this.status,
@@ -50,6 +43,7 @@ function makeRequestpro (method, url) {
         statusText: xhr.statusText
       });
     };
+    console.log("get user results");
     xhr.send();
   });
 }
@@ -90,11 +84,7 @@ function renderDOM(userInfo){
   section.appendChild(link);
   article.appendChild(section);
   makeRequestpro('GET', userInfo.repos_url)
-.then(function (datums) {
-  var results = [];
-results = JSON.parse(datums);
-  renderUserDOM(results);
-});
+.then(renderUserDOM )
 }
 
 function renderUserDOM(userInfo){
@@ -115,14 +105,9 @@ function renderUserSPA(item){
   var url = 'https://api.github.com/repos/'+ item.full_name +'/events'
   makeRequestpro('GET', url)
   .then(function (datums) {
-  var results = [];
-  results = JSON.parse(datums);
-  //console.log(results)
-  
-
   a.addEventListener("click", getRepoInfo);
   function getRepoInfo(){
-  makeRepoInfo(item , results);
+  makeRepoInfo(item , datums);
 
 }})
 };
